@@ -1,5 +1,15 @@
-import { Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { NotesService } from './notes.service';
+import { CreateNotesDto } from 'src/dto/notesDTO/notes.dto';
+import { updateDTO } from 'src/dto/notesDTO/editNotes.dto';
 
 @Controller('notes')
 export class NotesController {
@@ -11,13 +21,13 @@ export class NotesController {
   }
 
   @Post()
-  async createData() {
-    return await this.serviceNote.createData();
+  async createData(@Body() data: CreateNotesDto) {
+    return await this.serviceNote.createData(data);
   }
 
   @Patch(`:id`)
-  async updateData(@Param('id') id: number) {
-    return await this.serviceNote.updateData(+id);
+  async updateData(@Body() dto: updateDTO, @Param('id') id: number) {
+    return await this.serviceNote.updateData(+id, dto);
   }
 
   @Delete(`:id`)
